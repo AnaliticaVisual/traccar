@@ -2,12 +2,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.traccar</groupId>
-    <artifactId>traccar</artifactId>
-    <version>3.12-SNAPSHOT</version>
+    <groupId>consulting.analiticavisual</groupId>
+    <artifactId>trackaris</artifactId>
+    <version>3.13</version>
 
-    <name>traccar</name>
-    <url>https://www.traccar.org</url>
+    <name>trackaris</name>
+    <url>https://trackaris.analiticavisual.consulting</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

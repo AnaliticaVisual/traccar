@@ -1,0 +1,59 @@
+version: "3.2"
+services:
+  platform:
+    image: 237986532941.dkr.ecr.us-west-2.amazonaws.com/trackaris:3.13
+    environment:
+      MYSQL_DATABASE: traccar
+      MYSQL_PASSWORD: ""
+      MYSQL_USER: track
+      MYSQL_ROOT_PASSWORD: ""
+    networks:
+      - trackaris-net
+      - traefik-net
+    volumes:
+      - trackaris-config:/config
+    entrypoint: java -jar traccar-server.jar /config/traccar.xml
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 300M
+        restart_policy:
+          condition: on-failure
+      labels:
+        - "traefik.frontend.rule=Host:trackaris.analiticavisual.consulting"
+        - "traefik.frontend.passHostHeader=true"
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_load_balancing"
+        - "traefik.domain=docker.localhost"
+        - "traefik.port=8082"
+
+        - "traefik.traccarWeb.frontend.entryPoints=http,https"
+        - "traefik.traccarWeb.frontend.passHostHeader=true"
+        - "traefik.traccarWeb.backend.maxconn.amount=10"
+        - "traefik.traccarWeb.backend.maxconn.extractorfunc=client.ip"
+        - "traefik.traccarWeb.backend.healthcheck.path=/"
+        - "traefik.traccarWeb.backend.healthcheck.interval=10s"
+        - "traefik.traccarWeb.enable=true"
+        - "traefik.traccarWeb.port=8082"
+
+        - "traefik.traccarAndroid.frontend.entryPoints=traccarAndroid"
+        - "traefik.traccarAndroid.frontend.passHostHeader=true"
+        - "traefik.traccarAndroid.backend.maxconn.amount=10"
+        - "traefik.traccarAndroid.backend.maxconn.extractorfunc=client.ip"
+        - "traefik.traccarAndroid.backend.healthcheck.path=/"
+        - "traefik.traccarAndroid.backend.healthcheck.interval=10s"
+        - "traefik.traccarAndroid.enable=true"
+        - "traefik.traccarAndroid.port=5055"
+volumes:
+  trackaris-config:
+    external:
+      name: trackaris-config
+networks:
+  trackaris-net:
+    external:
+      name: trackaris_net
+  traefik-net:
+    external:
+      name: traefik_load_balancing

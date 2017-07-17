@@ -1,6 +1,6 @@
 FROM java:8-alpine
 
-MAINTAINER Danilo Recchia <danilo.recchia@vortus.solutions>
+MAINTAINER Kenji Kina <Kenji@analiticavisual.consulting>
 
 USER root
 
