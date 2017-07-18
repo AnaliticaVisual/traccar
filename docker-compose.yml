@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   platform:
-    image: 237986532941.dkr.ecr.us-west-2.amazonaws.com/trackaris:3.13
+    image: 237986532941.dkr.ecr.us-west-2.amazonaws.com/trackaris:v3.13
     environment:
       MYSQL_DATABASE: traccar
       MYSQL_PASSWORD: ""
@@ -11,14 +11,14 @@ services:
       - trackaris-net
       - traefik-net
     volumes:
-      - trackaris-config:/config
-    entrypoint: java -jar traccar-server.jar /config/traccar.xml
+      - trackaris-config:/confAlt
+    entrypoint: java -jar traccar-server.jar /confAlt/traccar.xml
     deploy:
       replicas: 2
       resources:
         limits:
-          cpus: "0.2"
-          memory: 300M
+          cpus: "0.4"
+          memory: 400M
         restart_policy:
           condition: on-failure
       labels:
